@@ -9,10 +9,12 @@ import AWT.UI.AWTColorPaletteMenu;
 import AWT.UI.AWTDefaultMouseUserDevice;
 import AWT.UI.AWTEditorPanel;
 import AWT.UI.AWTFileMenu;
+import AWT.UI.AWTLayerManager;
 import AWT.UI.AWTMenuButton;
 import AWT.UI.AWTMouseUserDevice;
 import AWT.UI.AWTProgramWindow;
 import AWT.UI.AWTSimpleUserDeviceDisplayLayer;
+import AWT.update.AWTProgramMain;
 import ColorPaletteEditor.file.ColorPaletteFiler;
 import data.shapes.Grid;
 import data.shapes.Point;
@@ -69,11 +71,21 @@ public class AWTColorPaletteEditorProgram {
 		AWTEditorPanel 		editorPanel = new AWTEditorPanel(userDevice);
 		AWTFileMenu 		fileMenu 	= new AWTFileMenu(colorFiler);
 				
-		editorPanel.addLayer(colorChooser);
-		editorPanel.addLayer(paletteMenu);
-		editorPanel.addLayer(fileMenu);
-		editorPanel.addLayer(new AWTSimpleUserDeviceDisplayLayer(userDevice));
+		AWTLayerManager layerManager = new AWTLayerManager();
+		layerManager.addLayer(colorChooser);
+		layerManager.addLayer(paletteMenu);
+		layerManager.addLayer(fileMenu);
+		layerManager.addLayer(new AWTSimpleUserDeviceDisplayLayer(userDevice));
+		
+		editorPanel.setLayerManager(layerManager);
+		
 		window.add(editorPanel);
 		window.revalidate();
+		
+		AWTProgramMain main = new AWTProgramMain();
+		main.setMouse(userDevice);
+		main.setLayerManager(layerManager);
+		Thread mainThread = new Thread(main);
+		mainThread.start();
 	}
 }
