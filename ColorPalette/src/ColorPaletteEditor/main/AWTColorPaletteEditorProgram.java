@@ -1,15 +1,16 @@
 package ColorPaletteEditor.main;
 
 import generic.ColorData;
+import generic.EditorProgram;
 
 import java.util.ArrayList;
 
+import UI.LayerManager;
 import AWT.UI.AWTColorChooserMenu;
 import AWT.UI.AWTColorPaletteMenu;
 import AWT.UI.AWTDefaultMouseUserDevice;
 import AWT.UI.AWTEditorPanel;
 import AWT.UI.AWTFileMenu;
-import AWT.UI.AWTLayerManager;
 import AWT.UI.AWTMenuButton;
 import AWT.UI.AWTMouseUserDevice;
 import AWT.UI.AWTProgramWindow;
@@ -69,23 +70,20 @@ public class AWTColorPaletteEditorProgram {
 		
 		AWTMouseUserDevice 	userDevice 	= new AWTDefaultMouseUserDevice();
 		AWTEditorPanel 		editorPanel = new AWTEditorPanel(userDevice);
-		AWTFileMenu 		fileMenu 	= new AWTFileMenu(colorFiler);
 				
-		AWTLayerManager layerManager = new AWTLayerManager();
-		layerManager.addLayer(colorChooser);
-		layerManager.addLayer(paletteMenu);
-		layerManager.addLayer(fileMenu);
-		layerManager.addLayer(new AWTSimpleUserDeviceDisplayLayer(userDevice));
+		LayerManager layerManager = new LayerManager();
+		layerManager.addLayers(colorChooser,
+							   paletteMenu,
+							   new AWTFileMenu(colorFiler),
+							   new AWTSimpleUserDeviceDisplayLayer(userDevice));
 		
 		editorPanel.setLayerManager(layerManager);
 		
 		window.add(editorPanel);
 		window.revalidate();
 		
-		AWTProgramMain main = new AWTProgramMain();
-		main.setMouse(userDevice);
-		main.setLayerManager(layerManager);
-		Thread mainThread = new Thread(main);
-		mainThread.start();
+		EditorProgram editorProgram = new EditorProgram();
+		editorProgram.setMain(AWTProgramMain.create(layerManager, userDevice));
+		editorProgram.start();
 	}
 }
