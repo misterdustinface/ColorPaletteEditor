@@ -5,7 +5,7 @@ import generic.EditorProgram;
 
 import java.util.ArrayList;
 
-import UI.LayerManager;
+import UI.UILayerManager;
 import AWT.UI.AWTColorChooserMenu;
 import AWT.UI.AWTColorPaletteMenu;
 import AWT.UI.AWTDefaultMouseUserDevice;
@@ -54,7 +54,7 @@ public class AWTColorPaletteEditorProgram {
 		final AWTColorChooserMenu colorChooser = new AWTColorChooserMenu(COLOR_CHOOSER_DISPLAYBOX);
 		
 		final AWTColorPaletteMenu paletteMenu = new AWTColorPaletteMenu(colorChooser, COLOR_PALETTE_DISPLAYGRID);
-		paletteMenu.setPostition(COLOR_PALETTE_POSITION);
+		paletteMenu.setPosition(COLOR_PALETTE_POSITION);
 		paletteMenu.setButtonOffset(BUTTON_OFFSET);
 		paletteMenu.setButtonSize(BUTTON_SIZE);
 		paletteMenu.setPalette(colorPalette);
@@ -71,7 +71,7 @@ public class AWTColorPaletteEditorProgram {
 		AWTMouseUserDevice 	userDevice 	= new AWTDefaultMouseUserDevice();
 		AWTEditorPanel 		editorPanel = new AWTEditorPanel(userDevice);
 				
-		LayerManager layerManager = new LayerManager();
+		UILayerManager layerManager = new UILayerManager();
 		layerManager.addLayers(colorChooser,
 							   paletteMenu,
 							   new AWTFileMenu(colorFiler),
