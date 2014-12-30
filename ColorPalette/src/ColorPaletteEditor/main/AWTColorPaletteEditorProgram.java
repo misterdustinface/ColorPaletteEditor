@@ -5,6 +5,9 @@ import generic.EditorProgram;
 
 import java.util.ArrayList;
 
+import shapes.Grid;
+import shapes.Point;
+import shapes.Rectangle;
 import UI.UILayerManager;
 import AWT.UI.AWTColorChooserMenu;
 import AWT.UI.AWTColorPaletteMenu;
@@ -17,9 +20,6 @@ import AWT.UI.AWTProgramWindow;
 import AWT.UI.AWTSimpleUserDeviceDisplayLayer;
 import AWT.update.AWTProgramMain;
 import ColorPaletteEditor.file.ColorPaletteFiler;
-import data.shapes.Grid;
-import data.shapes.Point;
-import data.shapes.Rectangle;
 
 public class AWTColorPaletteEditorProgram {
 	
