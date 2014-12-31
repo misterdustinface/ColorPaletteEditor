@@ -1,5 +1,6 @@
 package ColorPaletteEditor.main;
 
+import file.GenericExtended.ColorPaletteFiler;
 import generic.ColorData;
 import generic.EditorProgram;
 
@@ -19,7 +20,6 @@ import AWT.UI.Mouse.AWTSimpleUserDeviceDisplayLayer;
 import AWT.update.AWTProgramMain;
 import ColorPaletteEditor.AWT.UI.AWTColorChooserMenu;
 import ColorPaletteEditor.AWT.UI.AWTColorPaletteMenu;
-import ColorPaletteEditor.file.ColorPaletteFiler;
 
 public class AWTColorPaletteEditorProgram {
 	

@@ -34,27 +34,31 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 	
 	private ArrayList<AWTMenuButton> buttons;
 	
+	private AWTGraphicData graphicData;
+	
 	public AWTColorChooserMenu(Rectangle DISPLAYBOX) {
 		displayBox = DISPLAYBOX;
 				
+		graphicData = AWTGraphicData.getGraphicData();
+		
 		color    = new ColorData(128,128,128,255);
 		awtColor = new Color(color.r, color.g, color.b, color.a);
 		
 		hueSliders[R].setBase(new Rectangle(displayBox.x + elementOffset, displayBox.y +elementOffset , elementShortsize, displayBox.height));
-		hueSliders[R].setBaseColor(AWTGraphicData.lightclear);
+		hueSliders[R].setBaseColor(graphicData.lightclear);
 		hueSliders[R].setColor(Color.RED.darker(), Color.RED, Color.RED.darker());
 		
 		hueSliders[G].setBase(new Rectangle(displayBox.x + 2*elementOffset + elementShortsize, displayBox.y +elementOffset , elementShortsize, displayBox.height));
-		hueSliders[G].setBaseColor(AWTGraphicData.lightclear);
+		hueSliders[G].setBaseColor(graphicData.lightclear);
 		hueSliders[G].setColor(Color.GREEN.darker(), Color.GREEN, Color.GREEN.darker());
 		
 		hueSliders[B].setBase(new Rectangle(displayBox.x + 3*elementOffset + 2*elementShortsize, displayBox.y +elementOffset, elementShortsize, displayBox.height));
-		hueSliders[B].setBaseColor(AWTGraphicData.lightclear);
+		hueSliders[B].setBaseColor(graphicData.lightclear);
 		hueSliders[B].setColor(Color.BLUE.darker(), Color.BLUE, Color.BLUE.darker());
 		
 		hueSliders[A].setBase(new Rectangle(displayBox.x + 4*elementOffset + 3*elementShortsize, displayBox.y +elementOffset, elementShortsize, displayBox.height));
-		hueSliders[A].setBaseColor(AWTGraphicData.lightclear);
-		hueSliders[A].setColor(AWTGraphicData.buttonPressedColor, AWTGraphicData.buttonColor, AWTGraphicData.buttonHighlightColor);
+		hueSliders[A].setBaseColor(graphicData.lightclear);
+		hueSliders[A].setColor(graphicData.buttonPressedColor, graphicData.buttonColor, graphicData.buttonHighlightColor);
 		
 		setSlidersToMatchColorData();
 		
