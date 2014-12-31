@@ -9,8 +9,6 @@ import shapes.Grid;
 import shapes.Point;
 import shapes.Rectangle;
 import UI.UILayerManager;
-import AWT.UI.AWTColorChooserMenu;
-import AWT.UI.AWTColorPaletteMenu;
 import AWT.UI.AWTDefaultMouseUserDevice;
 import AWT.UI.AWTEditorPanel;
 import AWT.UI.AWTFileMenu;
@@ -19,6 +17,8 @@ import AWT.UI.AWTMouseUserDevice;
 import AWT.UI.AWTProgramWindow;
 import AWT.UI.AWTSimpleUserDeviceDisplayLayer;
 import AWT.update.AWTProgramMain;
+import ColorPaletteEditor.AWT.UI.AWTColorChooserMenu;
+import ColorPaletteEditor.AWT.UI.AWTColorPaletteMenu;
 import ColorPaletteEditor.file.ColorPaletteFiler;
 
 public class AWTColorPaletteEditorProgram {
