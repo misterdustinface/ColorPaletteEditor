@@ -1,7 +1,7 @@
 package ColorPaletteEditor.AWT.UI;
 
 import generic.ColorData;
-import generic.DataModificationNotifier;
+import generic.ListenerPattern.Descriptive.DataModificationNotifier;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

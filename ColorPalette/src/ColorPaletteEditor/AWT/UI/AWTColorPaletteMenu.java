@@ -1,15 +1,15 @@
 package ColorPaletteEditor.AWT.UI;
 
 import generic.ColorData;
-import generic.DataModificationListener;
 import generic.VoidFunctionPointer;
+import generic.ListenerPattern.Descriptive.DataModificationListener;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
-import shapes.Grid;
 import AWT.UI.AWTDynamicGridMenu;
 import AWT.UI.AWTMenuButton;
+import UI.Grid;
 import UI.MouseUserDevice;
 
 public class AWTColorPaletteMenu extends AWTDynamicGridMenu {

@@ -6,9 +6,9 @@ import generic.EditorProgram;
 
 import java.util.ArrayList;
 
-import shapes.Grid;
 import shapes.Point;
 import shapes.Rectangle;
+import UI.Grid;
 import UI.UILayerManager;
 import AWT.UI.AWTEditorPanel;
 import AWT.UI.AWTMenuButton;
