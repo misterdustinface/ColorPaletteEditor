@@ -30,7 +30,7 @@ public class AWTColorPaletteMenu extends AWTDynamicGridMenu {
 	}
 	
 	private void removeColorAtIndex(int i) {
-		if(paletteColors.size() > 0) {
+		if (paletteColors.size() > 0) {
 			paletteColors.remove(i);
 			refreshButtons();
 		}
@@ -75,14 +75,22 @@ public class AWTColorPaletteMenu extends AWTDynamicGridMenu {
 		};
 	}
 	
-	private void requestColorDeletion(ColorData COLOR_DATA) { setColorToRemove(COLOR_DATA); }
-	private boolean shouldRemoveColor() 			{ return toRemove != -1; }
-	private void	setColorToRemove(ColorData cd) 	{ toRemove = paletteColors.indexOf(cd); }
-	private void    removalComplete()   			{ toRemove = -1; }
+	private void requestColorDeletion(ColorData COLOR_DATA) { 
+		setColorToRemove(COLOR_DATA); 
+	}
+	private boolean shouldRemoveColor() { 
+		return toRemove != -1; 
+	}
+	private void setColorToRemove(ColorData cd) { 
+		toRemove = paletteColors.indexOf(cd); 
+	}
+	private void removalComplete() { 
+		toRemove = -1; 
+	}
 	
 	public void update(MouseUserDevice mouse) {
 		super.update(mouse);
-		if(shouldRemoveColor()) {
+		if (shouldRemoveColor()) {
 			removeColorAtIndex(toRemove);
 			removalComplete();
 		}
@@ -133,7 +141,9 @@ public class AWTColorPaletteMenu extends AWTDynamicGridMenu {
 		}
 		
 		@Override
-		protected void releaseAction() {}
+		protected void releaseAction() {
+			
+		}
 		
 		public void update(MouseUserDevice mouse) {
 //			isDeleteButtonPressed = mouse.isTerciaryButton() && mouse.isClicked();

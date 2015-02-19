@@ -23,7 +23,7 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 	private final static int G = 1;
 	private final static int B = 2;
 	private final static int A = 3;
-	private AWTHueBarSlider[] hueSliders = {new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider()};
+	private AWTHueBarSlider[] hueSliders = { new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider() };
 	private Rectangle displayBox;
 	private static int elementSize         = 64;
 	private static int elementShortsize    = 21;
@@ -66,7 +66,9 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 		buttons = new ArrayList<AWTMenuButton>();
 	}
 	
-	public ColorData getColorData() { return color; }
+	public ColorData getColorData() { 
+		return color; 
+	}
 	
 	public void setColorData(ColorData COLOR_DATA) {
 		color    = COLOR_DATA;
@@ -92,9 +94,9 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 	public void render(Graphics2D g) {
 		menuDrawer.setGraphics(g);
 		//menuDrawer.drawMenu(position, width, height);
-		for(AWTMenuButton button : buttons)
+		for (AWTMenuButton button : buttons)
 			menuDrawer.drawButton(button);
-		for(AWTBarSlider slider : hueSliders)
+		for (AWTBarSlider slider : hueSliders)
 			menuDrawer.drawSlider(slider);
 
 		g.setColor(Color.WHITE);
@@ -105,12 +107,12 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 
 	@Override
 	public void update(MouseUserDevice mouse) {
-		for(AWTMenuButton button : buttons)
+		for (AWTMenuButton button : buttons)
 			button.update(mouse);
-		for(AWTBarSlider slider : hueSliders)
+		for (AWTBarSlider slider : hueSliders)
 			slider.update(mouse);
 
-		if(slidersHaveChanged()) {
+		if (slidersHaveChanged()) {
 			formColorWithCombinedHues();
 			notifyListeners();
 		}
