@@ -15,11 +15,11 @@ public class AWTHueBarSlider extends AWTBarSlider {
 		
 	}
 
-	public void setHue(int i) { 
-		setFillPercent(i / 255f); 
+	public void setHue(float val) { 
+		setFillPercent(val); 
 	}
-	public int  getHue() { 
-		return (int)(255 * getFillPercent()); 
+	public float getHue() { 
+		return getFillPercent(); 
 	}
 	
 }

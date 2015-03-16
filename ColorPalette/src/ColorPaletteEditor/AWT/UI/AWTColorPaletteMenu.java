@@ -14,8 +14,9 @@ import UI.MouseUserDevice;
 
 public class AWTColorPaletteMenu extends AWTDynamicGridMenu {
 
-	private ArrayList<ColorData> 	paletteColors;
-	private AWTColorChooserMenu 	colorChooser;
+	private ArrayList<ColorData> paletteColors;
+	private AWTColorChooserMenu  colorChooser;
+	private boolean shouldRemoveColor;
 	private int toRemove;
 	
 	public AWTColorPaletteMenu(AWTColorChooserMenu COLOR_CHOOSER, Grid DISPLAYGRID) {
@@ -78,22 +79,26 @@ public class AWTColorPaletteMenu extends AWTDynamicGridMenu {
 	private void requestColorDeletion(ColorData COLOR_DATA) { 
 		setColorToRemove(COLOR_DATA); 
 	}
-	private boolean shouldRemoveColor() { 
-		return toRemove != -1; 
-	}
+	
 	private void setColorToRemove(ColorData cd) { 
 		toRemove = paletteColors.indexOf(cd); 
+		shouldRemoveColor = toRemove != -1;
 	}
+	
 	private void removalComplete() { 
-		toRemove = -1; 
+		shouldRemoveColor = false;
+	}
+	
+	private void removeColorIfRequested() {
+		if (shouldRemoveColor) {
+			removeColorAtIndex(toRemove);
+			removalComplete();
+		}
 	}
 	
 	public void update(MouseUserDevice mouse) {
 		super.update(mouse);
-		if (shouldRemoveColor()) {
-			removeColorAtIndex(toRemove);
-			removalComplete();
-		}
+		removeColorIfRequested();
 	}
 	
 	class ColorPaletteButton extends AWTMenuButton {

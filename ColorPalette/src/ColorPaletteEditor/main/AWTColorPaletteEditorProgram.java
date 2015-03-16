@@ -2,7 +2,7 @@ package ColorPaletteEditor.main;
 
 import file.GenericExtended.ColorPaletteFiler;
 import generic.ColorData;
-import generic.EditorProgram;
+import generic.Application;
 
 import java.util.ArrayList;
 
@@ -82,7 +82,7 @@ public class AWTColorPaletteEditorProgram {
 		window.add(editorPanel);
 		window.revalidate();
 		
-		EditorProgram editorProgram = new EditorProgram();
+		Application editorProgram = new Application();
 		editorProgram.setMain(AWTProgramMain.create(layerManager, userDevice));
 		editorProgram.start();
 	}

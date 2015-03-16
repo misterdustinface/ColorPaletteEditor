@@ -1,6 +1,7 @@
 package ColorPaletteEditor.AWT.UI;
 
 import generic.ColorData;
+import generic.ListenerPattern.Listener;
 import generic.ListenerPattern.Descriptive.DataModificationNotifier;
 
 import java.awt.Color;
@@ -17,24 +18,29 @@ import UI.MouseUserDevice;
 
 public class AWTColorChooserMenu extends DataModificationNotifier implements AWTUILayer {
 	
-	private AWTMenuDrawer menuDrawer;
+	final private static int R = 0;
+	final private static int G = 1;
+	final private static int B = 2;
+	final private static int A = 3;
+	final private AWTHueBarSlider[] hueSliders = { new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider() };
+	final private ArrayList<AWTMenuButton> buttons;
+	final private AWTMenuDrawer menuDrawer;
+	final private AWTGraphicData graphicData;
+	final private Listener hueSliderChangeListener = new Listener() {
+		@Override
+		protected void whenNotified() {
+			formColorWithCombinedHues();
+			notifyDataModified();
+		}
+	};
 	
-	private final static int R = 0;
-	private final static int G = 1;
-	private final static int B = 2;
-	private final static int A = 3;
-	private AWTHueBarSlider[] hueSliders = { new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider() };
 	private Rectangle displayBox;
-	private static int elementSize         = 64;
-	private static int elementShortsize    = 21;
-	private static int elementOffset       = 4;
+	private static int elementSize      = 64;
+	private static int elementShortsize = 21;
+	private static int elementOffset    = 4;
 	
 	private Color     awtColor;
 	private ColorData color;
-	
-	private ArrayList<AWTMenuButton> buttons;
-	
-	private AWTGraphicData graphicData;
 	
 	public AWTColorChooserMenu(Rectangle DISPLAYBOX) {
 		displayBox = DISPLAYBOX;
@@ -47,18 +53,22 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 		hueSliders[R].setBase(new Rectangle(displayBox.x + elementOffset, displayBox.y +elementOffset , elementShortsize, displayBox.height));
 		hueSliders[R].setBaseColor(graphicData.lightclear);
 		hueSliders[R].setColor(Color.RED.darker(), Color.RED, Color.RED.darker());
+		hueSliders[R].addChangeListener(hueSliderChangeListener);
 		
 		hueSliders[G].setBase(new Rectangle(displayBox.x + 2*elementOffset + elementShortsize, displayBox.y +elementOffset , elementShortsize, displayBox.height));
 		hueSliders[G].setBaseColor(graphicData.lightclear);
 		hueSliders[G].setColor(Color.GREEN.darker(), Color.GREEN, Color.GREEN.darker());
+		hueSliders[G].addChangeListener(hueSliderChangeListener);
 		
 		hueSliders[B].setBase(new Rectangle(displayBox.x + 3*elementOffset + 2*elementShortsize, displayBox.y +elementOffset, elementShortsize, displayBox.height));
 		hueSliders[B].setBaseColor(graphicData.lightclear);
 		hueSliders[B].setColor(Color.BLUE.darker(), Color.BLUE, Color.BLUE.darker());
+		hueSliders[B].addChangeListener(hueSliderChangeListener);
 		
 		hueSliders[A].setBase(new Rectangle(displayBox.x + 4*elementOffset + 3*elementShortsize, displayBox.y +elementOffset, elementShortsize, displayBox.height));
 		hueSliders[A].setBaseColor(graphicData.lightclear);
 		hueSliders[A].setColor(graphicData.buttonPressedColor, graphicData.buttonColor, graphicData.buttonHighlightColor);
+		hueSliders[A].addChangeListener(hueSliderChangeListener);
 		
 		setSlidersToMatchColorData();
 		
@@ -81,6 +91,11 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 		hueSliders[G].setHue(color.g);
 		hueSliders[B].setHue(color.b);
 		hueSliders[A].setHue(color.a);
+	}
+	
+	private void formColorWithCombinedHues() {
+		setColorDataToMatchSliders();
+		awtColor = new Color(color.r, color.g, color.b, color.a);
 	}
 	
 	private void setColorDataToMatchSliders() {
@@ -111,25 +126,6 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 			button.update(mouse);
 		for (AWTBarSlider slider : hueSliders)
 			slider.update(mouse);
-
-		if (slidersHaveChanged()) {
-			formColorWithCombinedHues();
-			notifyListeners();
-		}
-		
-	}
-
-	private boolean slidersHaveChanged() {
-		return  ( ( hueSliders[R].getHue() ^ color.r ) 
-				| ( hueSliders[G].getHue() ^ color.g )
-				| ( hueSliders[B].getHue() ^ color.b )
-				| ( hueSliders[A].getHue() ^ color.a )
-				) > 0;
-	}
-	
-	private void formColorWithCombinedHues() {
-		setColorDataToMatchSliders();
-		awtColor = new Color(color.r, color.g, color.b, color.a);
 	}
 	
 	public void addButton(AWTMenuButton button) {
