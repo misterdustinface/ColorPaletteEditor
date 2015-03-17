@@ -51,23 +51,23 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 		awtColor = new Color(color.r, color.g, color.b, color.a);
 		
 		hueSliders[R].setBase(new Rectangle(displayBox.x + elementOffset, displayBox.y +elementOffset , elementShortsize, displayBox.height));
-		hueSliders[R].setBaseColor(graphicData.lightclear);
+		hueSliders[R].setBaseColor(graphicData.getColorOf("lightclear"));
 		hueSliders[R].setColor(Color.RED.darker(), Color.RED, Color.RED.darker());
 		hueSliders[R].addChangeListener(hueSliderChangeListener);
 		
 		hueSliders[G].setBase(new Rectangle(displayBox.x + 2*elementOffset + elementShortsize, displayBox.y +elementOffset , elementShortsize, displayBox.height));
-		hueSliders[G].setBaseColor(graphicData.lightclear);
+		hueSliders[G].setBaseColor(graphicData.getColorOf("lightclear"));
 		hueSliders[G].setColor(Color.GREEN.darker(), Color.GREEN, Color.GREEN.darker());
 		hueSliders[G].addChangeListener(hueSliderChangeListener);
 		
 		hueSliders[B].setBase(new Rectangle(displayBox.x + 3*elementOffset + 2*elementShortsize, displayBox.y +elementOffset, elementShortsize, displayBox.height));
-		hueSliders[B].setBaseColor(graphicData.lightclear);
+		hueSliders[B].setBaseColor(graphicData.getColorOf("lightclear"));
 		hueSliders[B].setColor(Color.BLUE.darker(), Color.BLUE, Color.BLUE.darker());
 		hueSliders[B].addChangeListener(hueSliderChangeListener);
 		
 		hueSliders[A].setBase(new Rectangle(displayBox.x + 4*elementOffset + 3*elementShortsize, displayBox.y +elementOffset, elementShortsize, displayBox.height));
-		hueSliders[A].setBaseColor(graphicData.lightclear);
-		hueSliders[A].setColor(graphicData.buttonPressedColor, graphicData.buttonColor, graphicData.buttonHighlightColor);
+		hueSliders[A].setBaseColor(graphicData.getColorOf("lightclear"));
+		hueSliders[A].setColor(graphicData.getColorOf("buttonPressed"), graphicData.getColorOf("button"), graphicData.getColorOf("buttonHighlight"));
 		hueSliders[A].addChangeListener(hueSliderChangeListener);
 		
 		setSlidersToMatchColorData();
