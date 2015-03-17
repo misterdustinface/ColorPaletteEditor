@@ -12,7 +12,7 @@ import shapes.Rectangle;
 import AWT.UI.AWTBarSlider;
 import AWT.UI.AWTMenuButton;
 import AWT.UI.AWTUILayer;
-import AWT.graphicdata.AWTGraphicData;
+import AWT.graphicdata.EditorAWTGraphicData;
 import AWT.rendering.AWTMenuDrawer;
 import UI.MouseUserDevice;
 
@@ -25,7 +25,7 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 	final private AWTHueBarSlider[] hueSliders = { new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider(), new AWTHueBarSlider() };
 	final private ArrayList<AWTMenuButton> buttons;
 	final private AWTMenuDrawer menuDrawer;
-	final private AWTGraphicData graphicData;
+	final private EditorAWTGraphicData graphicData;
 	final private Listener hueSliderChangeListener = new Listener() {
 		@Override
 		protected void whenNotified() {
@@ -45,7 +45,7 @@ public class AWTColorChooserMenu extends DataModificationNotifier implements AWT
 	public AWTColorChooserMenu(Rectangle DISPLAYBOX) {
 		displayBox = DISPLAYBOX;
 				
-		graphicData = AWTGraphicData.getGraphicData();
+		graphicData = EditorAWTGraphicData.getGraphicData();
 		
 		color    = new ColorData(128,128,128,255);
 		awtColor = new Color(color.r, color.g, color.b, color.a);
