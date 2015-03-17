@@ -5,56 +5,43 @@ import generic.VoidFunctionPointer;
 import generic.ListenerPattern.Descriptive.DataModificationListener;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.awt.Graphics2D;
 
-import AWT.UI.AWTDynamicGridMenu;
 import AWT.UI.AWTMenuButton;
+import AWT.UI.AWTUILayer;
+import AWT.rendering.AWTMenuDrawer;
+import ColorPaletteEditor.UI.ColorPaletteMenu;
 import UI.Grid;
-import UI.MouseUserDevice;
+import UI.MenuButton;
 
-public class AWTColorPaletteMenu extends AWTDynamicGridMenu {
-
-	private ArrayList<ColorData> paletteColors;
-	private AWTColorChooserMenu  colorChooser;
-	private boolean shouldRemoveColor;
-	private int toRemove;
+public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer {
+	
+	protected AWTMenuDrawer menuDrawer;
 	
 	public AWTColorPaletteMenu(AWTColorChooserMenu COLOR_CHOOSER, Grid DISPLAYGRID) {
-		super(DISPLAYGRID);
-		colorChooser = COLOR_CHOOSER;
-		setPalette(new ArrayList<ColorData>());
-	}
-	
-	public void setPalette(ArrayList<ColorData> colorData) {
-		paletteColors = colorData;
-		refreshButtons();
-	}
-	
-	private void removeColorAtIndex(int i) {
-		if (paletteColors.size() > 0) {
-			paletteColors.remove(i);
-			refreshButtons();
-		}
-	}
-	
-	public DataModificationListener getDataModificationListener() {
-		return new DataModificationListener() {
-			@Override
-			protected void whenMyDataIsModifiedExternally() {
-				refreshButtons(paletteColors.size());
-			}
-		};
+		super(COLOR_CHOOSER, DISPLAYGRID);
+		menuDrawer = AWTMenuDrawer.getMenuDrawer();
 	}
 	
 	@Override
-	protected AWTMenuButton newButton(int index) {
+	public void render(Graphics2D g) {
+		menuDrawer.setGraphics(g);
+		menuDrawer.drawUIMenu(this);
+
+		if (canFitNewEmptyEntry()) {
+			menuDrawer.drawPlusOnButton(getEmptyEntry());
+		}
+	}
+	
+	@Override
+	protected MenuButton newButton(int index) {
 		AWTMenuButton colorPaletteButton = new ColorPaletteButton(paletteColors.get(index));
 		colorPaletteButton.fill();
 		return colorPaletteButton;
 	}
 	
 	@Override
-	protected AWTMenuButton newEmptyButton() {
+	protected MenuButton newEmptyButton() {
 		final ColorData colorData = new ColorData(200,200,200,255);
 		AWTMenuButton colorPaletteButton = new ColorPaletteButton(colorData);
 		colorPaletteButton.setButtonPressedFunction(new VoidFunctionPointer() {
@@ -67,43 +54,9 @@ public class AWTColorPaletteMenu extends AWTDynamicGridMenu {
 		return colorPaletteButton;
 	}	
 	
-	public VoidFunctionPointer getColorDeleteFunction() {
-		return new VoidFunctionPointer() {
-			@Override
-			public void call() {
-				requestColorDeletion(colorChooser.getColorData());
-			}
-		};
-	}
-	
-	private void requestColorDeletion(ColorData COLOR_DATA) { 
-		setColorToRemove(COLOR_DATA); 
-	}
-	
-	private void setColorToRemove(ColorData cd) { 
-		toRemove = paletteColors.indexOf(cd); 
-		shouldRemoveColor = toRemove != -1;
-	}
-	
-	private void removalComplete() { 
-		shouldRemoveColor = false;
-	}
-	
-	private void removeColorIfRequested() {
-		if (shouldRemoveColor) {
-			removeColorAtIndex(toRemove);
-			removalComplete();
-		}
-	}
-	
-	public void update(MouseUserDevice mouse) {
-		super.update(mouse);
-		removeColorIfRequested();
-	}
-	
 	class ColorPaletteButton extends AWTMenuButton {
 
-		private ColorData colordata;
+		private final ColorData localColordata;
 		
 		private final Color PRESSED_COLOR   = new Color(	pressedColor.getRed(),
 															pressedColor.getGreen(),
@@ -113,47 +66,31 @@ public class AWTColorPaletteMenu extends AWTDynamicGridMenu {
 															highlightColor.getGreen(),
 															highlightColor.getBlue(),
 															64);
-//		private boolean isDeleteButtonPressed = false;
 		
 		public ColorPaletteButton(ColorData COLOR_DATA) {
-			colordata = COLOR_DATA;
+			localColordata = COLOR_DATA;
 			pressedColor = PRESSED_COLOR;
 			highlightColor = HIGHLIGHT_COLOR;
-			updateColor();
+			updateButtonColor();
 			
 			colorChooser.addDataModificationListener(new DataModificationListener() {
 				@Override
 				protected void whenMyDataIsModifiedExternally() {
-					updateColor();
+					updateButtonColor();
 				}
 			});
 		}
 		
-		private void updateColor() {
+		private void updateButtonColor() {
 			setColor(pressedColor,
-					 new Color(colordata.r, colordata.g, colordata.b, colordata.a),
+					 new Color(localColordata.r, localColordata.g, localColordata.b, localColordata.a),
 					 highlightColor);
 		}
 		
 		@Override
 		protected void pressAction() { 
-//			if(isDeleteButtonPressed) { 
-//				requestColorDeletion(colordata);
-//				isDeleteButtonPressed = false;
-//			} else {
-				colorChooser.setColorData(colordata); 
-//			}
-		}
-		
-		@Override
-		protected void releaseAction() {
-			
-		}
-		
-		public void update(MouseUserDevice mouse) {
-//			isDeleteButtonPressed = mouse.isTerciaryButton() && mouse.isClicked();
-			super.update(mouse);
-		}
-		
+			colorChooser.setColorData(localColordata); 
+		}	
 	}
+	
 }
