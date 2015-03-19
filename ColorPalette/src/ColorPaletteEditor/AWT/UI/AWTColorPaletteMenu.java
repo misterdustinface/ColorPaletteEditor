@@ -1,8 +1,7 @@
 package ColorPaletteEditor.AWT.UI;
 
 import generic.ColorData;
-import generic.VoidFunctionPointer;
-import generic.ListenerPattern.Descriptive.DataModificationListener;
+import generic.ListenerPattern.Listener;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -33,30 +32,15 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 		}
 	}
 	
-	@Override
-	protected MenuButton newButton(int index) {
-		AWTMenuButton colorPaletteButton = new ColorPaletteButton(paletteColors.get(index));
+	protected MenuButton newColorPaletteButton(ColorData colorData) {
+		ColorPaletteButton colorPaletteButton = new ColorPaletteButton(colorData);
 		colorPaletteButton.fill();
 		return colorPaletteButton;
 	}
 	
-	@Override
-	protected MenuButton newEmptyButton() {
-		final ColorData colorData = new ColorData(200,200,200,255);
-		AWTMenuButton colorPaletteButton = new ColorPaletteButton(colorData);
-		colorPaletteButton.setButtonPressedFunction(new VoidFunctionPointer() {
-			@Override
-			public void call() {
-				paletteColors.add(colorData);
-			}
-		});
-		colorPaletteButton.fill();
-		return colorPaletteButton;
-	}	
-	
 	class ColorPaletteButton extends AWTMenuButton {
 
-		private final ColorData localColordata;
+		private ColorData localColordata;
 		
 		private final Color PRESSED_COLOR   = new Color(	pressedColor.getRed(),
 															pressedColor.getGreen(),
@@ -67,30 +51,26 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 															highlightColor.getBlue(),
 															64);
 		
-		public ColorPaletteButton(ColorData COLOR_DATA) {
-			localColordata = COLOR_DATA;
-			pressedColor = PRESSED_COLOR;
+		public ColorPaletteButton(ColorData INITIAL_COLOR) {
+			localColordata = INITIAL_COLOR;
+			pressedColor   = PRESSED_COLOR;
 			highlightColor = HIGHLIGHT_COLOR;
 			updateButtonColor();
-			
-			colorChooser.addDataModificationListener(new DataModificationListener() {
+			addShouldUpdateButtonColorListener(new Listener() {
 				@Override
-				protected void whenMyDataIsModifiedExternally() {
+				protected void whenNotified() {
 					updateButtonColor();
 				}
 			});
 		}
 		
 		private void updateButtonColor() {
+			localColordata = getColorChooserColor();
 			setColor(pressedColor,
 					 new Color(localColordata.r, localColordata.g, localColordata.b, localColordata.a),
 					 highlightColor);
 		}
 		
-		@Override
-		protected void pressAction() { 
-			colorChooser.setColorData(localColordata); 
-		}	
 	}
 	
 }

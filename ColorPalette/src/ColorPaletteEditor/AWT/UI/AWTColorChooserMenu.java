@@ -24,6 +24,8 @@ public class AWTColorChooserMenu extends ColorChooserMenu implements AWTUILayer 
 		
 		menuDrawer = AWTMenuDrawer.getMenuDrawer();
 		
+		awtColor = new Color(color.r, color.g, color.b, color.a);
+		
 		((AWTBarSlider)hueSliders[0]).setColor(Color.RED.darker(), Color.RED, Color.RED.darker());
 		((AWTBarSlider)hueSliders[1]).setColor(Color.GREEN.darker(), Color.GREEN, Color.GREEN.darker());
 		((AWTBarSlider)hueSliders[2]).setColor(Color.BLUE.darker(), Color.BLUE, Color.BLUE.darker());
@@ -57,7 +59,7 @@ public class AWTColorChooserMenu extends ColorChooserMenu implements AWTUILayer 
 	}
 
 	@Override
-	protected void colorDataUpdated() {
+	protected void onColorDataUpdated() {
 		awtColor = new Color(color.r, color.g, color.b, color.a);
 	}
 	
