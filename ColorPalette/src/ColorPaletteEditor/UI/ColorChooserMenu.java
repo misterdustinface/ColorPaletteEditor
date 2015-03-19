@@ -19,34 +19,16 @@ public abstract class ColorChooserMenu extends DataModificationNotifier implemen
 	final protected Rectangle displayBox;
 	final protected ColorData color;
 	
-	final private Listener hueSliderChangeListener = new Listener() {
-		@Override
-		protected void whenNotified() {
-			setColorDataToMatchSliders();
-			notifyDataModified();
-		}
-	};
-	
 	protected static int elementSize = 64;
 	protected static int elementShortsize = 21;
 	protected static int elementOffset= 4;
 	
-	
 	public ColorChooserMenu(Rectangle DISPLAYBOX) {
 		displayBox = DISPLAYBOX;
 		buttons = new ArrayList<MenuButton>();
-		color = new ColorData(0.5f,0.5f,0.5f,1.0f);
+		color = new ColorData(0.75f,0.75f,0.75f,1.0f);
 		hueSliders = new BarSlider[4];
-		
-		for (int i = 0; i < 4; ++i) {
-			hueSliders[i] = newBarSliderSubclass();
-			hueSliders[i].addChangeListener(hueSliderChangeListener);
-		}
-		
-		for (int i = 0; i < 4; ++i) {
-			hueSliders[i].setBase(new Rectangle(displayBox.x + (1+i)*elementOffset + (i)*elementShortsize, displayBox.y +elementOffset , elementShortsize, displayBox.height));
-		}
-		
+		constructHueSliders();		
 		setSlidersToMatchColorData();
 	}
 	
@@ -76,6 +58,24 @@ public abstract class ColorChooserMenu extends DataModificationNotifier implemen
 	
 	abstract protected BarSlider newBarSliderSubclass();
 	abstract protected void onColorDataUpdated();
+	
+	private void constructHueSliders() {
+		for (int i = 0; i < 4; ++i) {
+			hueSliders[i] = newBarSliderSubclass();
+			hueSliders[i].addChangeListener(hueSliderChangeListener);
+		}
+		for (int i = 0; i < 4; ++i) {
+			hueSliders[i].setBase(new Rectangle(displayBox.x + (1+i)*elementOffset + (i)*elementShortsize, displayBox.y +elementOffset , elementShortsize, displayBox.height));
+		}
+	}
+	
+	final private Listener hueSliderChangeListener = new Listener() {
+		@Override
+		protected void whenNotified() {
+			setColorDataToMatchSliders();
+			notifyDataModified();
+		}
+	};
 	
 	private void setSlidersToMatchColorData() {
 		hueSliders[0].setFillPercent(color.r);

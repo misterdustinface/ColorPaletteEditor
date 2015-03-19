@@ -55,8 +55,8 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 			localColordata = INITIAL_COLOR;
 			pressedColor   = PRESSED_COLOR;
 			highlightColor = HIGHLIGHT_COLOR;
-			updateButtonColor();
-			addShouldUpdateButtonColorListener(new Listener() {
+			becomeMyDesignatedColor();
+			addShouldUpdateButtonColorListener(this, new Listener() {
 				@Override
 				protected void whenNotified() {
 					updateButtonColor();
@@ -66,6 +66,10 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 		
 		private void updateButtonColor() {
 			localColordata = getColorChooserColor();
+			becomeMyDesignatedColor();
+		}
+		
+		private void becomeMyDesignatedColor() {
 			setColor(pressedColor,
 					 new Color(localColordata.r, localColordata.g, localColordata.b, localColordata.a),
 					 highlightColor);
