@@ -17,8 +17,8 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 	
 	protected AWTMenuDrawer menuDrawer;
 	
-	public AWTColorPaletteMenu(AWTColorChooserMenu COLOR_CHOOSER, Grid DISPLAYGRID) {
-		super(COLOR_CHOOSER, DISPLAYGRID);
+	public AWTColorPaletteMenu(Grid DISPLAYGRID) {
+		super(DISPLAYGRID);
 		menuDrawer = AWTMenuDrawer.getMenuDrawer();
 	}
 	
@@ -33,25 +33,20 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 	}
 	
 	protected MenuButton newColorPaletteButton(ColorData colorData) {
-		ColorPaletteButton colorPaletteButton = new ColorPaletteButton(colorData);
+		AWTColorPaletteButton colorPaletteButton = new AWTColorPaletteButton(colorData);
 		colorPaletteButton.fill();
+		//colorPaletteButton.textLabel.setText(""+buttons.size());
+		//colorPaletteButton.textLabel.center();
 		return colorPaletteButton;
 	}
 	
-	class ColorPaletteButton extends AWTMenuButton {
+	class AWTColorPaletteButton extends AWTMenuButton {
 
+		private final Color PRESSED_COLOR   = new Color( pressedColor.getRed(), pressedColor.getGreen(), pressedColor.getBlue(), 64);
+		private final Color HIGHLIGHT_COLOR = new Color( highlightColor.getRed(), highlightColor.getGreen(), highlightColor.getBlue(), 64);
 		private ColorData localColordata;
 		
-		private final Color PRESSED_COLOR   = new Color(	pressedColor.getRed(),
-															pressedColor.getGreen(),
-															pressedColor.getBlue(),
-															64);
-		private final Color HIGHLIGHT_COLOR = new Color(	highlightColor.getRed(),
-															highlightColor.getGreen(),
-															highlightColor.getBlue(),
-															64);
-		
-		public ColorPaletteButton(ColorData INITIAL_COLOR) {
+		public AWTColorPaletteButton(ColorData INITIAL_COLOR) {
 			localColordata = INITIAL_COLOR;
 			pressedColor   = PRESSED_COLOR;
 			highlightColor = HIGHLIGHT_COLOR;

@@ -14,31 +14,37 @@ import UI.MenuButton;
 
 public abstract class ColorPaletteMenu extends DynamicGridMenu {
 
-	private ArrayList<ColorData> paletteColors;
-	private ColorChooserMenu colorChooser;
+	private ArrayList<ColorData> colorPalette;
+	private ColorModifier externalColorModifier;
+	private volatile boolean ignoreExternalColorModifierChangeBecauseThisMenuCreatedTheChange;
+	private SelectiveNotifier<MenuButton> shouldUpdateButtonColorNotifier;
 	private MenuButton selectedButton;
-	private SelectiveNotifier<MenuButton> buttonColorUpdateNotifier;
 	
-	public ColorPaletteMenu(ColorChooserMenu COLOR_CHOOSER, Grid DISPLAYGRID) {
+	public ColorPaletteMenu(Grid DISPLAYGRID) {
 		super(DISPLAYGRID);
-		colorChooser = COLOR_CHOOSER;
-		colorChooser.addDataModificationListener(isColorChooserSliderChangedListener);
-		buttonColorUpdateNotifier = new SelectiveNotifier<MenuButton>();
-		paletteColors  = null;
+		shouldUpdateButtonColorNotifier = new SelectiveNotifier<MenuButton>();
+		ignoreExternalColorModifierChangeBecauseThisMenuCreatedTheChange = false;
+		externalColorModifier = null;
+		colorPalette = null;
 		selectedButton = null;
 	}
+	
+	public void setColorModifier(final ColorModifier COLOR_MODIFIER) {
+		externalColorModifier = COLOR_MODIFIER;
+		externalColorModifier.addDataModificationListener(onExternalColorModifierChange);
+	}
 
-	public void setPalette(ArrayList<ColorData> palette) {
-		paletteColors = palette;
+	public void setPalette(final ArrayList<ColorData> palette) {
+		colorPalette = palette;
 		clearButtons();
-		addNewButtons(paletteColors.size());
+		addNewButtons(colorPalette.size());
 	}
 	
 	public DataModificationListener getDataModificationListener() {
 		return new DataModificationListener() {
 			@Override
 			protected void whenMyDataIsModifiedExternally() {
-				refreshButtons(paletteColors.size());
+				refreshButtons(colorPalette.size());
 			}
 		};
 	}
@@ -48,25 +54,27 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 			@Override
 			public void call() {
 				synchronized (this) {
-					int paletteColorIndexToRemove = buttons.indexOf(selectedButton);
-					removeButton(selectedButton);
-					paletteColors.remove(paletteColorIndexToRemove);
+					if (selectedButton != null) {
+						removePaletteColor(selectedButton);
+						removeButton(selectedButton);
+						selectedButton = null;
+					}
 				}
 			}
 		};
 	}
 	
 	protected void addShouldUpdateButtonColorListener(MenuButton thisButton, Listener listener) {
-		buttonColorUpdateNotifier.addListener(thisButton, listener);
+		shouldUpdateButtonColorNotifier.addListener(thisButton, listener);
 	}
 	
 	protected ColorData getColorChooserColor() {
-		return colorChooser.getColor();
+		return externalColorModifier.getColor();
 	}
 	
 	@Override
 	final protected MenuButton newButton(int buttonIndex) {
-		ColorData colorData = paletteColors.get(buttonIndex);
+		ColorData colorData = colorPalette.get(buttonIndex);
 		MenuButton colorPaletteButton = newColorPaletteButton(colorData);
 		colorPaletteButton.setButtonPressedFunction(colorPaletteButtonPressedFunction(colorPaletteButton));
 		return colorPaletteButton;
@@ -82,39 +90,45 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 	
 	abstract protected MenuButton newColorPaletteButton(ColorData colorData);
 	
+	private void removePaletteColor(MenuButton paletteButton) {
+		colorPalette.remove(buttons.indexOf(paletteButton));
+	}
+	
+	private ColorData getPaletteColor(MenuButton paletteButton) {
+		return colorPalette.get(buttons.indexOf(paletteButton));
+	}
+	
 	private VoidFunctionPointer colorPaletteButtonPressedFunction(final MenuButton thisButton) {
 		return new VoidFunctionPointer() {
 			private final MenuButton THIS_BUTTON = thisButton;
 			@Override
 			public void call() {
-				selectedButton = null;
-				ColorData current = paletteColors.get(buttons.indexOf(THIS_BUTTON));
-				colorChooser.setColor(current);
 				selectedButton = THIS_BUTTON;
+				ignoreExternalColorModifierChangeBecauseThisMenuCreatedTheChange = true;
+				externalColorModifier.setColor(getPaletteColor(selectedButton));
+				ignoreExternalColorModifierChangeBecauseThisMenuCreatedTheChange = false;
 			}
 		};
 	}
-	
+
 	private VoidFunctionPointer newEmptyButtonPressedFunction(final MenuButton thisButton) {
 		return new VoidFunctionPointer() {
 			private final MenuButton THIS_BUTTON = thisButton;
 			@Override
 			public void call() {
-				selectedButton = null;
-				ColorData currentColorChooserColor = getColorChooserColor();
-				paletteColors.add(currentColorChooserColor);
-				buttonColorUpdateNotifier.notifyListener(thisButton);
-				thisButton.setButtonPressedFunction(colorPaletteButtonPressedFunction(thisButton));
 				selectedButton = THIS_BUTTON;
+				colorPalette.add(getColorChooserColor());
+				shouldUpdateButtonColorNotifier.notifyListener(thisButton);
+				thisButton.setButtonPressedFunction(colorPaletteButtonPressedFunction(thisButton));
 			}
 		};
 	}
 	
-	private DataModificationListener isColorChooserSliderChangedListener = new DataModificationListener() {
+	final private DataModificationListener onExternalColorModifierChange = new DataModificationListener() {
 		@Override
 		protected void whenMyDataIsModifiedExternally() {
-			if (selectedButton != null) {
-				buttonColorUpdateNotifier.notifyListener(selectedButton);
+			if (!ignoreExternalColorModifierChangeBecauseThisMenuCreatedTheChange && selectedButton != null) {
+				shouldUpdateButtonColorNotifier.notifyListener(selectedButton);
 			}
 		}
 	};
