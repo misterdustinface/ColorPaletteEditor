@@ -3,6 +3,7 @@ package ColorPaletteEditor.main;
 import file.GenericExtended.ColorPaletteFiler;
 import generic.ColorData;
 import generic.Application;
+import generic.EditorProgramMain;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,6 @@ import AWT.UI.CommonMenus.AWTFileMenu;
 import AWT.UI.Mouse.AWTDefaultMouseUserDevice;
 import AWT.UI.Mouse.AWTMouseUserDevice;
 import AWT.UI.Mouse.AWTSimpleUserDeviceDisplayLayer;
-import AWT.update.AWTProgramMain;
 import ColorPaletteEditor.AWT.UI.AWTBarSliderColorModifier;
 import ColorPaletteEditor.AWT.UI.AWTColorPaletteMenu;
 
@@ -91,7 +91,7 @@ public class AWTColorPaletteEditorProgram {
 		window.revalidate();
 		
 		Application editorProgram = new Application();
-		editorProgram.setMain(AWTProgramMain.create(layerManager, userDevice));
+		editorProgram.setMain(EditorProgramMain.create(layerManager, userDevice));
 		editorProgram.start();
 	}
 }
