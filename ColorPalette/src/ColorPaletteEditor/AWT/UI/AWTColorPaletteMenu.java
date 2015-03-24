@@ -1,7 +1,8 @@
 package ColorPaletteEditor.AWT.UI;
 
-import generic.ColorData;
 import generic.ListenerPattern.Listener;
+import generic.structures.ColorData;
+import generic.structures.Grid;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,8 +11,7 @@ import AWT.UI.AWTMenuButton;
 import AWT.UI.AWTUILayer;
 import AWT.rendering.AWTMenuDrawer;
 import ColorPaletteEditor.UI.ColorPaletteMenu;
-import UI.Grid;
-import UI.MenuButton;
+import UI.widgets.MenuButton;
 
 public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer {
 	

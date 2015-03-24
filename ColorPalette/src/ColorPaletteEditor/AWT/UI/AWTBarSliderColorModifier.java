@@ -11,7 +11,7 @@ import AWT.graphicdata.EditorAWTGraphicData;
 import AWT.rendering.AWTMenuDrawer;
 import AWT.rendering.AWTShapeDrawer;
 import ColorPaletteEditor.UI.BarSliderColorModifier;
-import UI.BarSlider;
+import UI.widgets.BarSlider;
 
 public class AWTBarSliderColorModifier extends BarSliderColorModifier implements AWTUILayer {
 	

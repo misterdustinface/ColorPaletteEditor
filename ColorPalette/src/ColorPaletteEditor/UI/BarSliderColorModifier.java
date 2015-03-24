@@ -1,11 +1,11 @@
 package ColorPaletteEditor.UI;
 
-import generic.ColorData;
 import generic.ListenerPattern.Listener;
+import generic.structures.ColorData;
 import shapes.Rectangle;
-import UI.BarSlider;
-import UI.MouseUserDevice;
 import UI.UILayer;
+import UI.input.MouseUserDevice;
+import UI.widgets.BarSlider;
 
 public abstract class BarSliderColorModifier extends ColorModifier implements UILayer {
 	
