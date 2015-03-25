@@ -43,15 +43,13 @@ public class AWTBarSliderColorModifier extends BarSliderColorModifier implements
 		float smallerRadius = (resultColorDisplay.width/4 < resultColorDisplay.height/4) ? resultColorDisplay.width/4 : resultColorDisplay.height/4;
 		referenceWhiteCircle = new Circle(resultColorDisplay.getCenterX(), resultColorDisplay.getCenterY(), smallerRadius);
 	}
-	
-	@Override
+
 	protected AWTBarSlider newBarSliderSubclass() {
 		AWTBarSlider slider = new AWTBarSlider();
 		slider.setBaseColor(graphicData.getColorOf("lightclear"));
 		return slider;
 	}
-	
-	@Override
+
 	public void render(Graphics2D g) {
 		menuDrawer.setGraphics(g);
 		menuDrawer.drawMenuBox((int)displayBox.x, (int)displayBox.y, (int)displayBox.width, (int)displayBox.height);
@@ -68,7 +66,6 @@ public class AWTBarSliderColorModifier extends BarSliderColorModifier implements
 		shapeDrawer.drawFilledRectangle(resultColorDisplay);
 	}
 
-	@Override
 	protected void onColorChangedEvent() {
 		awtColor = new Color(color.r, color.g, color.b, color.a);
 	}

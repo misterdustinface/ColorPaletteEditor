@@ -22,7 +22,6 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 		menuDrawer = AWTMenuDrawer.getMenuDrawer();
 	}
 	
-	@Override
 	public void render(Graphics2D g) {
 		menuDrawer.setGraphics(g);
 		menuDrawer.drawUIMenu(this);

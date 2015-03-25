@@ -42,7 +42,6 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 	
 	public DataModificationListener getDataModificationListener() {
 		return new DataModificationListener() {
-			@Override
 			protected void whenMyDataIsModifiedExternally() {
 				refreshButtons(colorPalette.size());
 			}
@@ -51,7 +50,6 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 	
 	public VoidFunctionPointer getColorDeleteFunction() {
 		return new VoidFunctionPointer() {
-			@Override
 			public void call() {
 				synchronized (this) {
 					if (selectedButton != null) {
@@ -72,7 +70,6 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 		return externalColorModifier.getColor();
 	}
 	
-	@Override
 	final protected MenuButton newButton(int buttonIndex) {
 		ColorData colorData = colorPalette.get(buttonIndex);
 		MenuButton colorPaletteButton = newColorPaletteButton(colorData);
@@ -80,7 +77,6 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 		return colorPaletteButton;
 	}
 	
-	@Override
 	final protected MenuButton newEmptyButton() {
 		ColorData colorData = new ColorData(0.75f,0.75f,0.75f,1.0f);
 		MenuButton colorPaletteButton = newColorPaletteButton(colorData);
@@ -101,7 +97,6 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 	private VoidFunctionPointer colorPaletteButtonPressedFunction(final MenuButton thisButton) {
 		return new VoidFunctionPointer() {
 			private final MenuButton THIS_BUTTON = thisButton;
-			@Override
 			public void call() {
 				selectedButton = THIS_BUTTON;
 				ignoreExternalColorModifierChangeBecauseThisMenuCreatedTheChange = true;
@@ -114,7 +109,6 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 	private VoidFunctionPointer newEmptyButtonPressedFunction(final MenuButton thisButton) {
 		return new VoidFunctionPointer() {
 			private final MenuButton THIS_BUTTON = thisButton;
-			@Override
 			public void call() {
 				selectedButton = THIS_BUTTON;
 				colorPalette.add(getColorChooserColor());
@@ -125,7 +119,6 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 	}
 	
 	final private DataModificationListener onExternalColorModifierChange = new DataModificationListener() {
-		@Override
 		protected void whenMyDataIsModifiedExternally() {
 			if (!ignoreExternalColorModifierChangeBecauseThisMenuCreatedTheChange && selectedButton != null) {
 				shouldUpdateButtonColorNotifier.notifyListener(selectedButton);

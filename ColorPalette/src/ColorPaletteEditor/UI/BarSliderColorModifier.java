@@ -23,7 +23,6 @@ public abstract class BarSliderColorModifier extends ColorModifier implements UI
 		setSlidersToMatchColorData();
 	}
 	
-	@Override
 	public void update(MouseUserDevice mouse) {
 		for (BarSlider slider : hueSliders) {
 			slider.update(mouse);
@@ -62,7 +61,6 @@ public abstract class BarSliderColorModifier extends ColorModifier implements UI
 	}
 	
 	final private Listener hueSliderChangedListener = new Listener() {
-		@Override
 		protected void whenNotified() {
 			setColorDataToMatchSliders();
 			notifyColorModified();
