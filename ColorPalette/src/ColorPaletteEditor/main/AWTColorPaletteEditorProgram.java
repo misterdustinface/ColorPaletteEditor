@@ -67,8 +67,7 @@ public class AWTColorPaletteEditorProgram {
 		colorFiler.addDataModificationListener(paletteMenu.getDataModificationListener());
 		
 		AWTMenuButton COLOR_DELETE_BUTTON = new AWTMenuButton();
-		COLOR_DELETE_BUTTON.textLabel.setText("DELETE");
-		COLOR_DELETE_BUTTON.textLabel.center();
+		COLOR_DELETE_BUTTON.setText("DELETE");
 		
 		EditorAWTGraphicData graphicData = EditorAWTGraphicData.getGraphicData();
 		Polygon p = PolygonBuilder.makeBox(graphicData.getThicknessOf("buttonWidth"), graphicData.getThicknessOf("buttonHeight"));
