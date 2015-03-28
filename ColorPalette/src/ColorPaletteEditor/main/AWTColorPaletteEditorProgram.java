@@ -9,6 +9,8 @@ import generic.structures.Grid;
 import java.util.ArrayList;
 
 import shapes.Point;
+import shapes.Polygon;
+import shapes.PolygonBuilder;
 import shapes.Rectangle;
 import UI.UILayerManager;
 import AWT.UI.AWTEditorPanel;
@@ -19,6 +21,7 @@ import AWT.UI.CommonMenus.AWTFileMenu;
 import AWT.UI.Mouse.AWTDefaultMouseUserDevice;
 import AWT.UI.Mouse.AWTMouseUserDevice;
 import AWT.UI.Mouse.AWTSimpleUserDeviceDisplayLayer;
+import AWT.graphicdata.EditorAWTGraphicData;
 import ColorPaletteEditor.AWT.UI.AWTBarSliderColorModifier;
 import ColorPaletteEditor.AWT.UI.AWTColorPaletteMenu;
 
@@ -66,7 +69,11 @@ public class AWTColorPaletteEditorProgram {
 		AWTMenuButton COLOR_DELETE_BUTTON = new AWTMenuButton();
 		COLOR_DELETE_BUTTON.textLabel.setText("DELETE");
 		COLOR_DELETE_BUTTON.textLabel.center();
-		COLOR_DELETE_BUTTON.makeSuggestedBoxRelativeToPoint(DELETE_BUTTON_X_POS, DELETE_BUTTON_Y_POS);
+		
+		EditorAWTGraphicData graphicData = EditorAWTGraphicData.getGraphicData();
+		Polygon p = PolygonBuilder.makeBox(graphicData.getThicknessOf("buttonWidth"), graphicData.getThicknessOf("buttonHeight"));
+		p.shift(DELETE_BUTTON_X_POS, DELETE_BUTTON_Y_POS);
+		COLOR_DELETE_BUTTON.setPolygon(p);
 		COLOR_DELETE_BUTTON.setButtonPressedFunction(paletteMenu.getColorDeleteFunction());
 		
 		AWTMenuButtonLayer DELETE_BUTTON_LAYER = new AWTMenuButtonLayer();
