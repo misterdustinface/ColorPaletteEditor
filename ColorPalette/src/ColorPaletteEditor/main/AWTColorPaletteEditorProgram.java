@@ -1,31 +1,26 @@
 package ColorPaletteEditor.main;
 
-import file.GenericExtended.ColorPaletteFiler;
-import generic.Application;
-import generic.EditorProgramMain;
-import generic.structures.ColorData;
 import generic.structures.Grid;
-
-import java.util.ArrayList;
-
 import shapes.Point;
 import shapes.Polygon;
 import shapes.PolygonBuilder;
 import shapes.Rectangle;
-import UI.UILayerManager;
 import AWT.UI.AWTEditorPanel;
 import AWT.UI.AWTMenuButton;
 import AWT.UI.AWTMenuButtonLayer;
 import AWT.UI.AWTProgramWindow;
 import AWT.UI.CommonMenus.AWTFileMenu;
 import AWT.UI.Mouse.AWTDefaultMouseUserDevice;
-import AWT.UI.Mouse.AWTMouseUserDevice;
 import AWT.UI.Mouse.AWTSimpleUserDeviceDisplayLayer;
 import AWT.graphicdata.EditorAWTGraphicData;
 import ColorPaletteEditor.AWT.UI.AWTBarSliderColorModifier;
 import ColorPaletteEditor.AWT.UI.AWTColorPaletteMenu;
+import ColorPaletteEditor.UI.ColorModifier;
+import ColorPaletteEditor.UI.ColorPaletteMenu;
+import UI.UILayer;
+import UI.input.MouseUserDevice;
 
-public class AWTColorPaletteEditorProgram {
+public class AWTColorPaletteEditorProgram extends ColorPaletteEditorApplication {
 	
 	static int X_OFFSET     = 16;
 	static int Y_OFFSET     = 16;
@@ -48,24 +43,47 @@ public class AWTColorPaletteEditorProgram {
 	static Point COLOR_PALETTE_POSITION = new Point(2*X_OFFSET + COLOR_CHOOSER_WIDTH, Y_OFFSET);
 	static Grid COLOR_PALETTE_DISPLAYGRID = new Grid(BUTTON_ROWS, BUTTON_COLS);
 	
-	public static void main(String[] args) {
+	private AWTDefaultMouseUserDevice mouseDev;
+	private AWTBarSliderColorModifier colorMod;
+	
+	public AWTColorPaletteEditorProgram() {
+		super();
 		AWTProgramWindow window = new AWTProgramWindow("Color Palette");
 		window.setSize(416, 284);
-		
-		ArrayList<ColorData> colorPalette 	= new ArrayList<ColorData>();
-		ColorPaletteFiler 	 colorFiler 	= new ColorPaletteFiler();
-		colorFiler.setPalette(colorPalette);
+		AWTEditorPanel editorPanel = new AWTEditorPanel(mouseDev);
+		editorPanel.setLayerManager(layerManager);
+		window.add(editorPanel);
+		window.revalidate();
+		start();
+	}
+	
+	public static void main(String[] args) {
+		new AWTColorPaletteEditorProgram();
+	}
 
-		final AWTBarSliderColorModifier colorChooser = new AWTBarSliderColorModifier(COLOR_CHOOSER_DISPLAYBOX);
-		
-		final AWTColorPaletteMenu paletteMenu = new AWTColorPaletteMenu(COLOR_PALETTE_DISPLAYGRID);
+	MouseUserDevice newMouseUserDevice() {
+		mouseDev = new AWTDefaultMouseUserDevice();
+		return mouseDev;
+	}
+	
+	ColorModifier newColorModifier() {
+		colorMod = new AWTBarSliderColorModifier(COLOR_CHOOSER_DISPLAYBOX);
+		return colorMod;
+	}
+
+	ColorPaletteMenu newColorPaletteMenu() {
+		AWTColorPaletteMenu paletteMenu = new AWTColorPaletteMenu(COLOR_PALETTE_DISPLAYGRID);
 		paletteMenu.setPosition(COLOR_PALETTE_POSITION);
 		paletteMenu.setButtonOffset(BUTTON_OFFSET);
 		paletteMenu.setButtonSize(BUTTON_SIZE);
-		paletteMenu.setColorModifier(colorChooser);
-		paletteMenu.setPalette(colorPalette);
-		colorFiler.addDataModificationListener(paletteMenu.getDataModificationListener());
-		
+		return paletteMenu;
+	}
+
+	UILayer newColorChooserLayer() {
+		return colorMod;
+	}
+
+	UILayer newColorDeleteButtonLayer() {
 		AWTMenuButton COLOR_DELETE_BUTTON = new AWTMenuButton();
 		COLOR_DELETE_BUTTON.setText("DELETE");
 		
@@ -78,26 +96,16 @@ public class AWTColorPaletteEditorProgram {
 		AWTMenuButtonLayer DELETE_BUTTON_LAYER = new AWTMenuButtonLayer();
 		DELETE_BUTTON_LAYER.setButton(COLOR_DELETE_BUTTON);
 		
-		AWTMouseUserDevice 	userDevice 	= new AWTDefaultMouseUserDevice();
-		AWTEditorPanel 		editorPanel = new AWTEditorPanel(userDevice);
-				
+		return DELETE_BUTTON_LAYER;
+	}
+
+	UILayer newFileMenu() {
 		AWTFileMenu fileMenu = new AWTFileMenu(colorFiler);
 		fileMenu.setPosition(new Point(X_OFFSET, Y_OFFSET));
-		
-		UILayerManager layerManager = new UILayerManager();
-		layerManager.addLayers(colorChooser,
-							   paletteMenu,
-							   DELETE_BUTTON_LAYER,
-							   fileMenu,
-							   new AWTSimpleUserDeviceDisplayLayer(userDevice));
-		
-		editorPanel.setLayerManager(layerManager);
-		
-		window.add(editorPanel);
-		window.revalidate();
-		
-		Application editorProgram = new Application();
-		editorProgram.setMain(EditorProgramMain.create(layerManager, userDevice));
-		editorProgram.start();
+		return fileMenu;
+	}
+
+	UILayer newUserDeviceDisplayLayer() {
+		return new AWTSimpleUserDeviceDisplayLayer(mouseDev);
 	}
 }
