@@ -6,15 +6,13 @@ import generic.ListenerPattern.Descriptive.SelectiveNotifier;
 import generic.fp.VoidFunctionPointer;
 import generic.structures.ColorData;
 import generic.structures.Grid;
-
-import java.util.ArrayList;
-
+import ColorPaletteEditor.data.ColorPalette;
 import UI.widgets.DynamicGridMenu;
 import UI.widgets.MenuButton;
 
 public abstract class ColorPaletteMenu extends DynamicGridMenu {
 
-	private ArrayList<ColorData> colorPalette;
+	private ColorPalette colorPalette;
 	private ColorModifier externalColorModifier;
 	private volatile boolean ignoreExternalColorModifierChangeBecauseThisMenuCreatedTheChange;
 	private SelectiveNotifier<MenuButton> shouldUpdateButtonColorNotifier;
@@ -34,29 +32,27 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 		externalColorModifier.addDataModificationListener(onExternalColorModifierChange);
 	}
 
-	public void setPalette(final ArrayList<ColorData> palette) {
+	public void setPalette(final ColorPalette palette) {
 		colorPalette = palette;
 		clearButtons();
-		addNewButtons(colorPalette.size());
+		addNewButtons(colorPalette.getSize());
 	}
 	
 	public DataModificationListener getDataModificationListener() {
 		return new DataModificationListener() {
 			protected void whenMyDataIsModifiedExternally() {
-				refreshButtons(colorPalette.size());
+				refreshButtons(colorPalette.getSize());
 			}
 		};
 	}
 	
 	public VoidFunctionPointer getColorDeleteFunction() {
 		return new VoidFunctionPointer() {
-			public void call() {
-				synchronized (this) {
-					if (selectedButton != null) {
-						removePaletteColor(selectedButton);
-						removeButton(selectedButton);
-						selectedButton = null;
-					}
+			public synchronized void call() {
+				if (selectedButton != null) {
+					removePaletteColor(selectedButton);
+					removeButton(selectedButton);
+					selectedButton = null;
 				}
 			}
 		};
@@ -74,6 +70,7 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 		ColorData colorData = colorPalette.get(buttonIndex);
 		MenuButton colorPaletteButton = newColorPaletteButton(colorData);
 		colorPaletteButton.setButtonPressedFunction(colorPaletteButtonPressedFunction(colorPaletteButton));
+		//colorPaletteButton.setText(""+buttonIndex);
 		return colorPaletteButton;
 	}
 	
@@ -96,7 +93,7 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 	
 	private VoidFunctionPointer colorPaletteButtonPressedFunction(final MenuButton thisButton) {
 		return new VoidFunctionPointer() {
-			private final MenuButton THIS_BUTTON = thisButton;
+			private MenuButton THIS_BUTTON = thisButton;
 			public void call() {
 				selectedButton = THIS_BUTTON;
 				ignoreExternalColorModifierChangeBecauseThisMenuCreatedTheChange = true;
@@ -108,12 +105,13 @@ public abstract class ColorPaletteMenu extends DynamicGridMenu {
 
 	private VoidFunctionPointer newEmptyButtonPressedFunction(final MenuButton thisButton) {
 		return new VoidFunctionPointer() {
-			private final MenuButton THIS_BUTTON = thisButton;
+			private MenuButton THIS_BUTTON = thisButton;
 			public void call() {
 				selectedButton = THIS_BUTTON;
 				colorPalette.add(getColorChooserColor());
 				shouldUpdateButtonColorNotifier.notifyListener(thisButton);
 				thisButton.setButtonPressedFunction(colorPaletteButtonPressedFunction(thisButton));
+				//thisButton.setText(""+(buttons.size()-1));
 			}
 		};
 	}

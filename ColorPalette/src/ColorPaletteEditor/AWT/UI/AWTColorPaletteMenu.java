@@ -34,8 +34,6 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 	protected MenuButton newColorPaletteButton(ColorData colorData) {
 		AWTColorPaletteButton colorPaletteButton = new AWTColorPaletteButton(colorData);
 		colorPaletteButton.fill();
-		//colorPaletteButton.textLabel.setText(""+buttons.size());
-		//colorPaletteButton.textLabel.center();
 		return colorPaletteButton;
 	}
 	
@@ -51,7 +49,6 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 			highlightColor = HIGHLIGHT_COLOR;
 			becomeMyDesignatedColor();
 			addShouldUpdateButtonColorListener(this, new Listener() {
-				@Override
 				protected void whenNotified() {
 					updateButtonColor();
 				}
@@ -63,7 +60,7 @@ public class AWTColorPaletteMenu extends ColorPaletteMenu implements AWTUILayer 
 			becomeMyDesignatedColor();
 		}
 		
-		private void becomeMyDesignatedColor() {
+		private synchronized void becomeMyDesignatedColor() {
 			setColor(pressedColor,
 					 new Color(localColordata.r, localColordata.g, localColordata.b, localColordata.a),
 					 highlightColor);

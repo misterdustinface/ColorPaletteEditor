@@ -15,6 +15,8 @@ public abstract class BarSliderColorModifier extends ColorModifier implements UI
 	protected static int barSliderWidth = 21;
 	protected static int elementOffset= 4;
 	
+	private volatile boolean ignoreHueSliderNotifications = false;
+	
 	public BarSliderColorModifier(Rectangle DISPLAYBOX) {
 		super();
 		displayBox = DISPLAYBOX;
@@ -31,8 +33,8 @@ public abstract class BarSliderColorModifier extends ColorModifier implements UI
 	
 	public void setColor(final ColorData source) {
 		super.setColor(source);
-		onColorChangedEvent();
 		setSlidersToMatchColorData();
+		onColorChangedEvent();
 	}
 	
 	abstract protected void onColorChangedEvent();
@@ -40,10 +42,12 @@ public abstract class BarSliderColorModifier extends ColorModifier implements UI
 	abstract protected BarSlider newBarSliderSubclass();
 	
 	private void setSlidersToMatchColorData() {
+		ignoreHueSliderNotifications = true;
 		hueSliders[0].setFillPercent(color.r);
 		hueSliders[1].setFillPercent(color.g);
 		hueSliders[2].setFillPercent(color.b);
 		hueSliders[3].setFillPercent(color.a);
+		ignoreHueSliderNotifications = false;
 	}
 	
 	private void constructHueSliders() {
@@ -62,8 +66,10 @@ public abstract class BarSliderColorModifier extends ColorModifier implements UI
 	
 	final private Listener hueSliderChangedListener = new Listener() {
 		protected void whenNotified() {
-			setColorDataToMatchSliders();
-			notifyColorModified();
+			if (!ignoreHueSliderNotifications) {
+				setColorDataToMatchSliders();
+				notifyColorModified();
+			}
 		}
 	};
 	

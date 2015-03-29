@@ -1,21 +1,18 @@
 package ColorPaletteEditor.main;
 
-import file.GenericExtended.ColorPaletteFiler;
 import generic.Application;
 import generic.EditorProgramMain;
-import generic.structures.ColorData;
-
-import java.util.ArrayList;
-
 import ColorPaletteEditor.UI.ColorModifier;
 import ColorPaletteEditor.UI.ColorPaletteMenu;
+import ColorPaletteEditor.data.ColorPalette;
+import ColorPaletteEditor.file.ColorPaletteFiler;
 import UI.UILayer;
 import UI.UILayerManager;
 import UI.input.MouseUserDevice;
 
 public abstract class ColorPaletteEditorApplication {
 	
-	public ArrayList<ColorData> colorPalette;
+	public ColorPalette colorPalette;
 	public ColorModifier colorChooser;
 	public ColorPaletteMenu paletteMenu;
 	public ColorPaletteFiler colorFiler;
@@ -23,7 +20,7 @@ public abstract class ColorPaletteEditorApplication {
 	public UILayerManager layerManager;
 	
 	public ColorPaletteEditorApplication() {
-		colorPalette = new ArrayList<ColorData>();
+		colorPalette = new ColorPalette();
 		colorFiler = new ColorPaletteFiler();
 		colorFiler.setPalette(colorPalette);
 
