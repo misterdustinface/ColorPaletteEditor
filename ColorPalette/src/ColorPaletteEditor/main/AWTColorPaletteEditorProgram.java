@@ -10,7 +10,7 @@ import AWT.UI.AWTMenuButton;
 import AWT.UI.AWTMenuButtonLayer;
 import AWT.UI.AWTProgramWindow;
 import AWT.UI.CommonMenus.AWTFileMenu;
-import AWT.UI.Mouse.AWTDefaultMouseUserDevice;
+import AWT.UI.Mouse.AWTMouseUserDevice;
 import AWT.UI.Mouse.AWTSimpleUserDeviceDisplayLayer;
 import AWT.graphicdata.EditorAWTGraphicData;
 import ColorPaletteEditor.AWT.UI.AWTBarSliderColorModifier;
@@ -43,7 +43,7 @@ public class AWTColorPaletteEditorProgram extends ColorPaletteEditorApplication 
 	static Point COLOR_PALETTE_POSITION = new Point(2*X_OFFSET + COLOR_CHOOSER_WIDTH, Y_OFFSET);
 	static Grid COLOR_PALETTE_DISPLAYGRID = new Grid(BUTTON_ROWS, BUTTON_COLS);
 	
-	private AWTDefaultMouseUserDevice mouseDev;
+	private AWTMouseUserDevice mouseDev;
 	private AWTBarSliderColorModifier colorMod;
 	
 	public AWTColorPaletteEditorProgram() {
@@ -62,7 +62,7 @@ public class AWTColorPaletteEditorProgram extends ColorPaletteEditorApplication 
 	}
 
 	MouseUserDevice newMouseUserDevice() {
-		mouseDev = new AWTDefaultMouseUserDevice();
+		mouseDev = new AWTMouseUserDevice();
 		return mouseDev;
 	}
 	
