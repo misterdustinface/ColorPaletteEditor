@@ -11,7 +11,7 @@ import AWT.UI.AWTMenuButtonLayer;
 import AWT.UI.AWTProgramWindow;
 import AWT.UI.CommonMenus.AWTFileMenu;
 import AWT.UI.Mouse.AWTMouseUserDevice;
-import AWT.UI.Mouse.AWTSimpleUserDeviceDisplayLayer;
+import AWT.UI.Mouse.AWTMouseUserDeviceDisplayLayer;
 import AWT.graphicdata.EditorAWTGraphicData;
 import ColorPaletteEditor.AWT.UI.AWTBarSliderColorModifier;
 import ColorPaletteEditor.AWT.UI.AWTColorPaletteMenu;
@@ -106,6 +106,6 @@ public class AWTColorPaletteEditorProgram extends ColorPaletteEditorApplication 
 	}
 
 	UILayer newUserDeviceDisplayLayer() {
-		return new AWTSimpleUserDeviceDisplayLayer(mouseDev);
+		return new AWTMouseUserDeviceDisplayLayer(mouseDev);
 	}
 }
