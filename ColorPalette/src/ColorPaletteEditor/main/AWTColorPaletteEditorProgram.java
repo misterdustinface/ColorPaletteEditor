@@ -40,7 +40,9 @@ public class AWTColorPaletteEditorProgram extends ColorPaletteEditorApplication 
 	
 	static Rectangle COLOR_CHOOSER_DISPLAYBOX = new Rectangle(new Point(X_OFFSET, COLOR_CHOOSER_DISPLAYBOX_YOFFSET), COLOR_CHOOSER_WIDTH, COLOR_CHOOSER_HEIGHT);
 
-	static Point COLOR_PALETTE_POSITION = new Point(2*X_OFFSET + COLOR_CHOOSER_WIDTH, Y_OFFSET);
+	static float COLOR_PALETTE_XPOS = 2*X_OFFSET + COLOR_CHOOSER_WIDTH;
+	static float COLOR_PALETTE_YPOS = Y_OFFSET;
+	
 	static Grid COLOR_PALETTE_DISPLAYGRID = new Grid(BUTTON_ROWS, BUTTON_COLS);
 	
 	private AWTMouseUserDevice mouseDev;
@@ -73,7 +75,7 @@ public class AWTColorPaletteEditorProgram extends ColorPaletteEditorApplication 
 
 	ColorPaletteMenu newColorPaletteMenu() {
 		AWTColorPaletteMenu paletteMenu = new AWTColorPaletteMenu(COLOR_PALETTE_DISPLAYGRID);
-		paletteMenu.setPosition(COLOR_PALETTE_POSITION);
+		paletteMenu.setPosition(COLOR_PALETTE_XPOS, COLOR_PALETTE_YPOS);
 		paletteMenu.setButtonOffset(BUTTON_OFFSET);
 		paletteMenu.setButtonSize(BUTTON_SIZE);
 		return paletteMenu;
@@ -101,7 +103,7 @@ public class AWTColorPaletteEditorProgram extends ColorPaletteEditorApplication 
 
 	UILayer newFileMenu() {
 		AWTFileMenu fileMenu = new AWTFileMenu(colorFiler);
-		fileMenu.setPosition(new Point(X_OFFSET, Y_OFFSET));
+		fileMenu.setPosition(X_OFFSET, Y_OFFSET);
 		return fileMenu;
 	}
 
