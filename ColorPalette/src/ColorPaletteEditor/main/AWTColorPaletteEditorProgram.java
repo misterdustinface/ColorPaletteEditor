@@ -88,6 +88,7 @@ public class AWTColorPaletteEditorProgram extends ColorPaletteEditorApplication 
 	UILayer newColorDeleteButtonLayer() {
 		AWTMenuButton COLOR_DELETE_BUTTON = new AWTMenuButton();
 		COLOR_DELETE_BUTTON.setText("DELETE");
+		COLOR_DELETE_BUTTON.setDebounceTime__sec(1);
 		
 		EditorAWTGraphicData graphicData = EditorAWTGraphicData.getGraphicData();
 		Polygon p = PolygonBuilder.makeBox(graphicData.getThicknessOf("buttonWidth"), graphicData.getThicknessOf("buttonHeight"));
