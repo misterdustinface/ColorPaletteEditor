@@ -1,10 +1,10 @@
 package ColorPaletteEditor.main;
 
-import generic.structures.Grid;
 import shapes.Point;
 import shapes.Polygon;
 import shapes.PolygonBuilder;
 import shapes.Rectangle;
+import structures.Grid;
 import AWT.UI.AWTEditorPanel;
 import AWT.UI.AWTMenuButton;
 import AWT.UI.AWTMenuButtonLayer;

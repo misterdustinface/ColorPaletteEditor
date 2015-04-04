@@ -1,8 +1,8 @@
 package ColorPaletteEditor.file;
 
+import structures.ColorData;
 import ColorPaletteEditor.data.ColorPalette;
 import file.LuaScriptFiler;
-import generic.structures.ColorData;
 
 public class ColorPaletteFiler extends LuaScriptFiler {
 

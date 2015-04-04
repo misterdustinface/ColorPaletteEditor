@@ -2,8 +2,8 @@ package ColorPaletteEditor.data;
 
 import java.util.Iterator;
 
-import generic.datastructures.Table;
-import generic.structures.ColorData;
+import structures.ColorData;
+import datastructures.Table;
 
 public class ColorPalette implements Iterable<ColorData> {
 	

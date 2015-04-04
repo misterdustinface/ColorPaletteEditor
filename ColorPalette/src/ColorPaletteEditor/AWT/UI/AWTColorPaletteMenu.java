@@ -1,12 +1,11 @@
 package ColorPaletteEditor.AWT.UI;
 
-import generic.ListenerPattern.Listener;
-import generic.structures.ColorData;
-import generic.structures.Grid;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import listenerpattern.Listener;
+import structures.ColorData;
+import structures.Grid;
 import AWT.UI.AWTMenuButton;
 import AWT.UI.AWTUILayer;
 import AWT.rendering.AWTMenuDrawer;

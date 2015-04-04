@@ -1,7 +1,7 @@
 package ColorPaletteEditor.UI;
 
-import generic.ListenerPattern.Descriptive.DataModificationNotifier;
-import generic.structures.ColorData;
+import notifiers.DataModificationNotifier;
+import structures.ColorData;
 
 public abstract class ColorModifier extends DataModificationNotifier {
 	

@@ -1,7 +1,7 @@
 package ColorPaletteEditor.main;
 
-import generic.Application;
-import generic.EditorProgramMain;
+import base.Application;
+import main.EditorProgramMain;
 import ColorPaletteEditor.UI.ColorModifier;
 import ColorPaletteEditor.UI.ColorPaletteMenu;
 import ColorPaletteEditor.data.ColorPalette;

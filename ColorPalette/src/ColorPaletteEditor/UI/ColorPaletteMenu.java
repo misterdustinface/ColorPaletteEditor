@@ -1,14 +1,14 @@
 package ColorPaletteEditor.UI;
 
-import generic.ListenerPattern.Listener;
-import generic.ListenerPattern.Descriptive.DataModificationListener;
-import generic.ListenerPattern.Descriptive.SelectiveNotifier;
-import generic.fp.VoidFunctionPointer;
-import generic.structures.ColorData;
-import generic.structures.Grid;
+import listenerpattern.Listener;
+import listeners.DataModificationListener;
+import notifiers.SelectiveNotifier;
+import structures.ColorData;
+import structures.Grid;
 import ColorPaletteEditor.data.ColorPalette;
 import UI.widgets.DynamicGridMenu;
 import UI.widgets.MenuButton;
+import functionpointers.VoidFunctionPointer;
 
 public abstract class ColorPaletteMenu extends DynamicGridMenu {
 

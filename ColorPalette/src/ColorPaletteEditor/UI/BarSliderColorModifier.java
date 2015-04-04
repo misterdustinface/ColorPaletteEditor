@@ -1,8 +1,8 @@
 package ColorPaletteEditor.UI;
 
-import generic.ListenerPattern.Listener;
-import generic.structures.ColorData;
+import listenerpattern.Listener;
 import shapes.Rectangle;
+import structures.ColorData;
 import UI.UILayer;
 import UI.input.MouseUserDevice;
 import UI.widgets.BarSlider;
